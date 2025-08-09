@@ -39,13 +39,13 @@ You can get a Gemini API key from the [Google AI Studio](https://makersuite.goog
 ### 3. Build the application
 
 ```bash
-./gradlew build
+mvn clean install
 ```
 
 ### 5. Run the application
 
 ```bash
-./gradlew bootRun
+mvn spring-boot:run
 ```
 
 The application will be available at `http://localhost:8080`
@@ -64,7 +64,7 @@ The application will be available at `http://localhost:8080`
 
 ### Architecture
 
-- **Frontend**: Thymeleaf templates with Bootstrap for styling
+- **Frontend**: 
 - **Backend**: Spring Boot application
 - **AI**: Google Gemini 2.5 Flash API for image processing and answer generation
 
