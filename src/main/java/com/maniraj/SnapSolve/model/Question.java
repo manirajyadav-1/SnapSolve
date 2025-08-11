@@ -1,5 +1,6 @@
 package com.maniraj.SnapSolve.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class Question {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_set_id")
+    @JsonBackReference
     private QuestionSet questionSet;
 
     public Question() {
