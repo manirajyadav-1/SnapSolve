@@ -15,7 +15,7 @@ Usage:
 3. Replace src/App.jsx with this file and run the dev server (localhost:3000).
 
 Notes:
-- The backend must be running on the same origin or CORS must allow requests from http://localhost:3000 (your backend already sets this in the controller).
+- The backend must be running on the same origin or CORS must allow requests from http://localhost:5173 (your backend already sets this in the controller).
 - This app provides: file upload, paste-from-clipboard image, history list, view result, download PDF/Word.
 */
 import React, { useEffect, useState, useRef } from "react";
@@ -26,7 +26,10 @@ function App() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
   const [pastePreview, setPastePreview] = useState(null);
+  const [preview, setPreview] = useState(null);
   const pasteRef = useRef(null);
+
+  const baseUrl = "http://localhost:8080";
 
   useEffect(() => {
     fetchHistory();
@@ -34,7 +37,7 @@ function App() {
 
   async function fetchHistory() {
     try {
-      const res = await fetch("http://localhost:8080/api/mcq/history");
+      const res = await fetch(`${baseUrl}/api/mcq/history`);
       if (!res.ok) throw new Error(`History fetch failed: ${res.status}`);
       const data = await res.json();
       setHistory(data);
@@ -43,6 +46,17 @@ function App() {
       setError(err.message);
     }
   }
+
+  async function handleFileChange(e) {
+    const file = e.target.files[0];
+    if (file) {
+      // Generate a preview URL
+      const previewURL = URL.createObjectURL(file);
+      setPreview(previewURL);
+    } else {
+      setPreview(null);
+    }
+  };
 
   async function handleFileUpload(e) {
     e.preventDefault();
@@ -59,7 +73,7 @@ function App() {
 
     try {
       setUploading(true);
-      const res = await fetch("http://localhost:8080/api/mcq/upload", {
+      const res = await fetch(`${baseUrl}/api/mcq/upload`, {
         method: "POST",
         body: formData,
       });
@@ -103,7 +117,7 @@ function App() {
     try {
       setUploading(true);
       const body = { base64Image: pastePreview };
-      const res = await fetch("http://localhost:8080/api/mcq/paste-image", {
+      const res = await fetch(`${baseUrl}/api/mcq/paste-image`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -167,7 +181,7 @@ function App() {
 
   async function viewResult(id) {
     try {
-      const res = await fetch(`http://localhost:8080/api/mcq/results/${id}`);
+      const res = await fetch(`${baseUrl}/api/mcq/results/${id}`);
       if (!res.ok) throw new Error(`Could not fetch result ${id}`);
       const data = await res.json();
       setSelectedSet(data);
@@ -178,9 +192,9 @@ function App() {
   }
 
   async function downloadFile(id, type) {
-    // type: 'pdf' or 'word'
+    // Type: 'pdf' or 'word'
     try {
-      const res = await fetch(`http://localhost:8080/api/mcq/results/${id}/${type}`);
+      const res = await fetch(`${baseUrl}/api/mcq/results/${id}/${type}`);
       if (!res.ok) {
         const text = await res.text();
         throw new Error(text || `Download failed: ${res.status}`);
@@ -212,8 +226,23 @@ function App() {
           <section className="bg-white p-4 rounded-lg shadow">
             <h2 className="font-semibold mb-3">Upload Image (File)</h2>
             <form onSubmit={handleFileUpload}>
-              <input id="imageInput" type="file" accept="image/*" className="mb-3" />
-              <div className="flex gap-2">
+
+              <label htmlFor="imageInput" className="cursor-pointer inline-block px-4 py-2 rounded bg-green-600 text-white font-medium shadow hover:bg-green-700 transition">
+                Choose an Image
+              </label>
+              <input id="imageInput" type="file" accept="image/*" className="hidden" onChange={handleFileChange}/>
+
+              {preview && (
+                <div className="mt-2">
+                  <img
+                    src={preview}
+                    alt="Selected Preview"
+                    className="max-w-xs rounded shadow border"
+                  />
+                </div>
+              )}
+
+              <div className="flex gap-2 mt-2">
                 <button
                   type="submit"
                   className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
@@ -227,6 +256,7 @@ function App() {
                   onClick={() => {
                     document.getElementById("imageInput").value = null;
                     setError(null);
+                    setPreview(null);
                   }}
                 >
                   Reset
@@ -359,7 +389,7 @@ function App() {
           </section>
         </main>
 
-        <footer className="mt-6 text-sm text-gray-500 text-center">SnapSolve • Frontend Example</footer>
+        <footer className="mt-6 text-sm text-gray-500 text-center">SnapSolve</footer>
       </div>
     </div>
   );
