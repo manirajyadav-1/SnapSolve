@@ -92,6 +92,11 @@ public class MCQController {
             return ResponseEntity.badRequest().body("No image data provided");
         }
 
+        // Remove possible data URL prefix
+        if(base64Image.startsWith("data:image")){
+            base64Image = base64Image.substring(base64Image.indexOf(",") + 1);
+        }
+
         try {
             logger.info("Processing pasted image with Gemini 2.5 Flash");
             List<Question> questions = geminiService.processBase64ImageForQuestions(base64Image);
