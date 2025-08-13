@@ -112,4 +112,7 @@ Frontend will be available at: `http://localhost:5173`
 - Requires an active internet connection to access the Gemini API
 - The Gemini API has rate limits and usage quotas
 
+## Output
+![App Screenshot](https://raw.githubusercontent.com/manirajyadav-1/SnapSolve/refs/heads/main/output/SnapSolveOutput.png)
+
 
