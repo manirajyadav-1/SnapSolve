@@ -16,7 +16,16 @@ A Spring Boot application that extracts multiple-choice questions from screensho
 - Gradle
 - Google Gemini API key (for image processing and answer generation)
 
-## Setup
+## Project Structure
+
+```bash
+SnapSolve/
+│
+├── backend/      # Spring Boot API server
+└── frontend/     # React UI
+```
+
+## Backend Setup (/backend)
 
 ### 1. Clone the repository
 
@@ -48,11 +57,33 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-The application will be available at `http://localhost:8080`
+The backend application will be available at `http://localhost:8080`
+
+
+## Frontend Setup (/frontend)
+
+### 1. Navigate to the frontend directory
+
+```bash
+cd ../frontend
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Start the React app
+
+```bash
+npm start
+```
+Frontend will be available at: `http://localhost:5173`
 
 ## Usage
 
-1. Open your browser and navigate to `http://localhost:8080`
+1. Open your browser and navigate to `http://localhost:5173`
 2. Take a screenshot of MCQ questions
 3. Choose one of the following methods:
    - **Paste directly**: Copy the screenshot to your clipboard (Ctrl+C or Print Screen), then paste it (Ctrl+V) into the paste area
@@ -64,7 +95,7 @@ The application will be available at `http://localhost:8080`
 
 ### Architecture
 
-- **Frontend**: 
+- **Frontend**: React.js, Tailwind CSS
 - **Backend**: Spring Boot application
 - **AI**: Google Gemini 2.5 Flash API for image processing and answer generation
 
