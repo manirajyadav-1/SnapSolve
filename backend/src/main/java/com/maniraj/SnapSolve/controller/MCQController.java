@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/mcq")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "${FRONTEND_URL}")
 public class MCQController {
 
     private static final Logger logger = LoggerFactory.getLogger(MCQController.class);
