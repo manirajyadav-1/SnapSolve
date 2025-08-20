@@ -29,7 +29,7 @@ function App() {
   const [preview, setPreview] = useState(null);
   const pasteRef = useRef(null);
 
-  const baseUrl = "http://localhost:8080";
+  const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     fetchHistory();
