@@ -8,7 +8,7 @@ A Spring Boot application that extracts multiple-choice questions from screensho
 - Process images directly with Google's Gemini 2.5 Flash AI in "flashmode"
 - Extract questions, options, and generate answers in a single step
 - Display results with explanations
-- Clean and responsive user interface with Thymeleaf
+- Clean and responsive user interface with React and Tailwind
 
 ## Prerequisites
 
