@@ -59,6 +59,23 @@ mvn spring-boot:run
 
 The backend application will be available at `http://localhost:8080`
 
+## OR
+### Docker Image
+The Docker image for this project is available on Docker Hub:https://hub.docker.com/repository/docker/maniraj1/snapsolve
+
+Pull the image
+
+```bash
+   docker pull maniraj1/snapsolve
+```
+
+Run the container
+```bash
+   docker run -p 8080:8080 maniraj1/snapsolve
+```
+
+This maps the container's port 8080 to your local machine's port 8080. Once running, the application will be available at: http://localhost:8080
+
 
 ## Frontend Setup (/frontend)
 
